@@ -23,8 +23,38 @@
         const { useState, useEffect } = React;
 
         function HPCalculator() {
-            const OTR_PRICE = 112800;
-            const WELCOME_BENEFIT = 4000;
+            const [selectedModel, setSelectedModel] = useState('e7prime');
+            
+            const models = {
+                'e7prime': {
+                    name: 'e.MAS 7 Prime',
+                    sellingPrice: 112392,
+                    otrPrice: 112800,
+                    welcomeBenefit: 4000
+                },
+                'e7premium': {
+                    name: 'e.MAS 7 Premium',
+                    sellingPrice: 126392,
+                    otrPrice: 126800,
+                    welcomeBenefit: 4000
+                },
+                'e5prime': {
+                    name: 'e.MAS 5 Prime',
+                    sellingPrice: 62392,
+                    otrPrice: 62800,
+                    welcomeBenefit: 3000
+                },
+                'e5premium': {
+                    name: 'e.MAS 5 Premium',
+                    sellingPrice: 75392,
+                    otrPrice: 75800,
+                    welcomeBenefit: 3000
+                }
+            };
+            
+            const currentModel = models[selectedModel];
+            const OTR_PRICE = currentModel.otrPrice;
+            const WELCOME_BENEFIT = currentModel.welcomeBenefit;
             const PRICE_AFTER_BENEFIT = OTR_PRICE - WELCOME_BENEFIT;
             
             const [downPaymentRM, setDownPaymentRM] = useState(10880);
@@ -65,23 +95,59 @@
 
             return (
                 <div className="min-h-screen" style={{ backgroundColor: '#b8e4e8' }}>
-                    <div className="w-full" style={{
-                        height: '350px',
-                        backgroundImage: 'url("emas7background calculator.png")',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundColor: '#b8e4e8'
-                    }}>
-                    </div>
                     
-                    <div className="max-w-4xl mx-auto px-6 pb-6" style={{ marginTop: '20px' }}>
+                    <div className="max-w-4xl mx-auto px-6 pb-6 pt-6">
+                        {/* Model Tabs */}
+                        <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-lg shadow-lg p-2 mb-6">
+                            <div className="grid grid-cols-4 gap-2">
+                                <button
+                                    onClick={() => setSelectedModel('e7prime')}
+                                    className={`py-3 px-2 rounded-lg font-semibold text-sm transition-all ${
+                                        selectedModel === 'e7prime'
+                                            ? 'bg-indigo-600 text-white shadow-md'
+                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    }`}
+                                >
+                                    e.MAS 7<br/>Prime
+                                </button>
+                                <button
+                                    onClick={() => setSelectedModel('e7premium')}
+                                    className={`py-3 px-2 rounded-lg font-semibold text-sm transition-all ${
+                                        selectedModel === 'e7premium'
+                                            ? 'bg-indigo-600 text-white shadow-md'
+                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    }`}
+                                >
+                                    e.MAS 7<br/>Premium
+                                </button>
+                                <button
+                                    onClick={() => setSelectedModel('e5prime')}
+                                    className={`py-3 px-2 rounded-lg font-semibold text-sm transition-all ${
+                                        selectedModel === 'e5prime'
+                                            ? 'bg-indigo-600 text-white shadow-md'
+                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    }`}
+                                >
+                                    e.MAS 5<br/>Prime
+                                </button>
+                                <button
+                                    onClick={() => setSelectedModel('e5premium')}
+                                    className={`py-3 px-2 rounded-lg font-semibold text-sm transition-all ${
+                                        selectedModel === 'e5premium'
+                                            ? 'bg-indigo-600 text-white shadow-md'
+                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    }`}
+                                >
+                                    e.MAS 5<br/>Premium
+                                </button>
+                            </div>
+                        </div>
                         <div className="bg-white bg-opacity-80 backdrop-blur-sm rounded-lg shadow-lg p-6 mb-6">
-                            <h2 className="text-xl font-bold text-gray-800 mb-4">Proton e.MAS 7 Prime</h2>
+                            <h2 className="text-xl font-bold text-gray-800 mb-4">Proton {currentModel.name}</h2>
                             <div className="grid grid-cols-2 gap-4 text-sm">
                                 <div className="border-b pb-2">
                                     <span className="text-gray-600">Selling Price:</span>
-                                    <span className="font-semibold float-right">RM 112,392</span>
+                                    <span className="font-semibold float-right">RM {currentModel.sellingPrice.toLocaleString()}</span>
                                 </div>
                                 <div className="border-b pb-2">
                                     <span className="text-gray-600">1-Year Road Tax:</span>
@@ -112,7 +178,7 @@
                             </div>
                             <div className="mt-3 pt-3 border-t bg-green-50 -mx-6 -mb-6 px-6 py-4 rounded-b-lg">
                                 <div className="flex justify-between items-center">
-                                    <span className="text-lg font-bold text-green-700">After Welcome Benefit (RM 4,000)*:</span>
+                                    <span className="text-lg font-bold text-green-700">After Welcome Benefit (RM {WELCOME_BENEFIT.toLocaleString()})*:</span>
                                     <span className="text-2xl font-bold text-green-600">RM {PRICE_AFTER_BENEFIT.toLocaleString()}</span>
                                 </div>
                             </div>
